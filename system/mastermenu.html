@@ -1,0 +1,198 @@
+<div class="masterMenu">
+    <nav class="sheet-tabs tabs" data-tab-container="primary">
+        <a class="item active" data-tab="main">{{localize "ACTOR.TypeCharacter"}}</a>
+        <a class="item" data-tab="randomGen">{{localize "MASTER.randomGen"}}</a>
+        <a class="item" data-tab="sceneConfig">{{localize "MASTER.sceneConfig"}}</a>
+    </nav>
+
+    <section class="content">
+        <div class="tab sceneConfig" data-tab="sceneConfig">
+            <div class="groupbox">
+                <h2>{{localize 'sight'}}</h2>
+
+                <div class="row-section lineheight">
+                    <div class="col fourty table-title">
+                        <label>{{localize "MASTER.darkness"}}</label>
+                    </div>
+                    <div class="col two">
+                        <input type="range" min="0" max="1" step="0.05" class="updateDarkness" name="updateDarkness" value="{{sceneConfig.darkness}}">
+                    </div>
+                    <div class="col ten center">
+                        <span class="range-value">{{item.value}}</span>
+                    </div>
+                </div>
+                <div class="row-section lineheight">
+                    <div class="col fourty table-title">
+                        <label>{{localize "MASTER.sightautomation"}}</label>
+                    </div>
+                    <div class="col two">
+                        <input type="checkbox" class="changeSetting" name="sightAutomationEnabled" value="1" {{checked sceneConfig.sceneAutomationEnabled}}>
+                    </div>
+                    <div class="col ten center">
+
+                    </div>
+                </div>
+                <div class="row-section lineheight" data-tooltip="MASTER.sightautomationTooltip">
+                    <div class="col fourty">
+                        <label>{{localize "MASTER.threshold"}}</label>
+                    </div>
+                    <div class="col two">
+                    </div>
+                    <div class="col ten center">
+                        <i class="fas fa-info"></i>
+                    </div>
+                </div>
+                {{#each sceneConfig.visions as |item i|}}
+                <div class="row-section lineheight">
+                    <div class="col fourty table-title">
+                        <label>{{item.label}}</label>
+                    </div>
+                    <div class="col two">
+                        <input type="range" min="0" max="1.05" step="0.05" class="changeSightTreshold" name="changeSightTreshold" data-index={{i}} value="{{item.value}}">
+                    </div>
+                    <div class="col ten center">
+                        <span class="range-value">{{item.value}}</span>
+                    </div>
+                </div>
+                {{/each}} {{{lightButton}}}
+            </div>
+            <div class="groupbox">
+                <h2>{{localize 'MASTER.automation'}}</h2>
+
+                <div class="row-section lineheight" data-tooltip="DSASETTINGS.enableDPSHint">
+                    <div class="col fourty table-title">
+                        <label>{{localize "DSASETTINGS.enableDPS"}}</label>
+                    </div>
+                    <div class="col two">
+                        <input type="checkbox" class="changeSetting" name="enableDPS" value="1" {{checked sceneConfig.enableDPS}}>
+                    </div>
+                    <div class="col ten center">
+                        <i class="fas fa-info"></i>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="tab randomGen" data-tab="randomGen">
+            {{#unless randomCreation}}
+            <div class="row-section">
+                <div class="col center">
+                    {{localize 'MASTER.gmMenuPlaceholder'}}
+                </div>
+            </div>
+            {{/unless}} {{#each randomCreation as |item ch|}}
+            <div class="row-section tableOdd wrap">
+                <div class="col">
+                    {{{item}}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="tab main" data-tab="main">
+            <div class="row-section">
+                <div class="col third lineheight center" data-tooltip="groupFatePoints">
+                    <b>{{{localize 'CHARAbbrev.groupFatePoints'}}}</b>
+                </div>
+                <div class="col sixty center" data-tooltip="fatePoints">
+                    {{#each groupschips as |item i|}}
+                    <a class="schip groupschip {{item.cssClass}}" data-val="{{item.value}}"></a>
+                    {{/each}}
+                </div>
+                <div class="col ten center">
+                    <a class="addGroupSchip" data-value="-1"><i class="fas fa-minus"></i></a>
+                    <a class="addGroupSchip" data-value="1"><i class="fas fa-plus"></i></a>
+                </div>
+            </div>
+            <div class="row-section">
+                
+                
+                <div class="col third lineheight center">
+                    <b>{{localize "skill"}}</b>
+                </div>
+                <div class="col sixty">
+                    <select name="data.skill" class="skillSelektor select2" data-dtype="String">
+                        {{#select lastSkill}}
+                        {{#each abilities as |ch|}}
+                        <option value="{{ch.name}}|{{ch.type}}">{{ch.name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+         
+                <div class="col ten lineheight center">
+                    <a class="requestRoll" data-tooltip="HELP.request"><i class="fas fa-dice-two"></i></a>
+                </div>
+            </div>
+            <div class="row-section skills table-title">
+                <div class="col ten"><a class="dragEveryone" data-tooltip="MASTER.dragEveryone"><i class="fas fa-grip-vertical"></i></a></div>
+                <div class="col five">
+                    {{localize 'Name'}} <a class="randomPlayer" data-tooltip="MASTER.randomPlayer"><i
+                            class="fas fa-dice-six"></i></a>
+                </div>
+                <div class="col ten">
+                </div>
+                <div class="col ten">
+                    <input type="checkbox" class="selectAll" name="selectAll" value="1">
+                </div>
+                <div class="col five">
+                    <a class="rollAll" data-tooltip="CHAT.RollBlind"><i class="fas fa-dice"></i></a>
+                    <a class="getPaidAll" data-tooltip="PAYMENT.wage"><i class="fas fa-piggy-bank"></i></a>
+                    <a class="payAll" data-tooltip="MASTER.payTT"><i class="fas fa-coins"></i></a>
+                    <a class="expAll" data-tooltip="MASTER.awardXP"><i class="fas fa-trophy"></i></a>
+                    <a class="groupCheck" data-tooltip="HELP.groupcheck"><i class="fas fa-users-cog"></i></a>
+                </div>
+            </div>
+            <div class="heros">
+                {{#each heros as |hero|}}
+                <div class="row-section skills tableOdd hero wrap" data-id="{{hero.id}}" data-uuid="{{hero.uuid}}">
+                    <div class="row-section col">
+                        <div class="col ten">
+                            <img src="{{hero.img}}" data-edit="img" height="50px" style="margin:0;" />
+                        </div>
+                        <div class="col five">
+                            <a class="heroLink">{{hero.name}}</a>
+                            <div>
+                                {{#each hero.schips as |item i|}}
+                                <a class="tiny heroschip schip {{item.cssClass}}" data-val="{{item.value}}"></a>
+                                {{/each}}
+
+                            </div>
+                        </div>
+                        <div class="col ten verticalFlex barRight">
+                            <div class="bar LeP" style="--a: {{hero.system.status.wounds.value}}; --b: {{hero.system.status.wounds.max}}">
+                            </div>
+                            {{#if hero.system.isMage}}
+                            <div class="bar AsP" style="--a: {{hero.system.status.astralenergy.value}}; --b: {{hero.system.status.astralenergy.max}}">
+                            </div>
+                            {{/if}} {{#if hero.system.isPriest}}
+                            <div class="bar KaP" style="--a: {{hero.system.status.karmaenergy.value}}; --b: {{hero.system.status.karmaenergy.max}}">
+                            </div>
+                            {{/if}}
+                        </div>
+                        <div class="col ten">
+                            <input type="checkbox" class="heroSelector" name="heroSelector" value="1" {{checked hero.gmSelected}}>
+                        </div>
+                        <div class="col five">
+                            <a class="rollChar" data-tooltip="CHAT.RollBlind"><i class="fas fa-dice"></i></a>
+                            <a class="getPaid" data-tooltip="PAYMENT.wage"><i class="fas fa-piggy-bank"></i></a>
+                            <a class="pay" data-tooltip="MASTER.payTT"><i class="fas fa-coins"></i></a>
+                            <a class="exp" data-tooltip="MASTER.awardXP"><i class="fas fa-trophy"></i></a>
+                        </div>
+                    </div>
+                    <div class="row-section lineheight expandDetails col">
+                        <div class="col">
+                            <ul>
+                                <li><b>{{localize "purse"}}</b>: {{{hero.purse}}}</li>
+                                <li><b>{{localize "Experience"}}</b>: {{hero.system.details.experience.spent}}/{{hero.system.details.experience.total}}</li>
+                                <li><b>{{localize "advantages"}}</b>: {{#each hero.advantages as |ad i|}}<a class="actorItem" data-uuid="{{ad.uuid}}">{{ad.name}}</a>{{/each}}</li>
+                                <li><b>{{localize "disadvantages"}}</b>: {{#each hero.disadvantages as |ad i|}}<a class="actorItem" data-uuid="{{ad.uuid}}">{{ad.name}}</a>{{/each}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</div>
